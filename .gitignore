@@ -1,0 +1,47 @@
+# ---------- Dataset (never commit; large and license-restricted) ----------
+dataset/
+*.dat
+*.xls
+*.xlsx
+
+# ---------- Python environment ----------
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- Cached features and model files ----------
+cache/
+*.npz
+*.joblib
+*.pkl
+*.pickle
+*.pt
+*.pth
+
+# ---------- Run outputs (timestamped folders are large and reproducible) ----------
+results/*
+!results/latest/
+results/latest/*
+!results/latest/report.md
+!results/latest/report.html
+!results/latest/paired_summary.csv
+
+# ---------- Logs ----------
+*.log
+
+# ---------- OS / editor files ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# ---------- Secrets ----------
+.env

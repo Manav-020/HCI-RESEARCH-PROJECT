@@ -1,0 +1,7 @@
+measure,quantile,value,sampling
+sampled_absolute_signal,0.0,5.835882472132736e-07,"deterministic stride, up to about 50000 values per subject"
+sampled_absolute_signal,0.5,5.877746473628839,"deterministic stride, up to about 50000 values per subject"
+sampled_absolute_signal,0.9,28.216418493866932,"deterministic stride, up to about 50000 values per subject"
+sampled_absolute_signal,0.99,125.78180142714929,"deterministic stride, up to about 50000 values per subject"
+sampled_absolute_signal,0.999,363.6282103699381,"deterministic stride, up to about 50000 values per subject"
+sampled_absolute_signal,1.0,1493.0686238747232,"deterministic stride, up to about 50000 values per subject"

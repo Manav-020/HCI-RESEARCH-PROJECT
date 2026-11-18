@@ -140,7 +140,9 @@ DEAP dataset: Koelstra, S. et al. "DEAP: A Database for Emotion Analysis Using P
 
 ## Authors
 
-<Your names, institution, course, supervisor>
+Manav Patel,Nishchap Mittal, Kirish Kachadiya, Shreya Ashar, Zeel Ramoliya
+
+SVNIT, Human computer interaction, Dr Sudhakar  Mishra
 
 ## License
 

@@ -11,7 +11,7 @@ All results are from 32-fold leave-one-subject-out (LOSO) evaluation on DEAP, wi
 | Finding | Evidence |
 |---|---|
 | **Prediction is at chance for every arm.** | Balanced accuracy (BA) 0.47-0.52. L0 general 0.495; final L4 model 0.483. No paired BA difference is significant. |
-| **An earlier notebook result (personalized BA ~0.56) did not replicate.** | The pipeline gives 0.489 for the same configuration. See `replication_diff.md` in a run folder. |
+| **An earlier notebook result (personalized BA ~0.56) did not replicate.** | The pipeline gives 0.489 for the same configuration. See [`latest/replication_diff.md`](latest/replication_diff.md). |
 | **Faithfulness gains come from sparsity, not calibration.** | L4 vs L0 compact faithfulness +0.10 (Holm p = 0.006), but L4 equals the L3 general model. Random-k feature selection gives 0.739, MI selection 0.770, and correlation-only 0.532. |
 | **Shrinkage personalization never adapted.** | Brier-based λ selection chose λ = ∞ in 32/32 folds (BA-based: 19/32). The predictive-preservation check (margin −0.03) was not met for L4 vs L0 (lower bound −0.048). |
 | **Calibration affects stability, depending on normalization.** | Without normalization, target-only explanations are less stable (refit cosine −0.23 at L0, −0.20 at L1, Holm p < 0.01). With per-subject normalization (L2), target-only is more stable (top-5 overlap +0.078, Holm p = 0.001) and more faithful (+0.10, Holm p = 0.012). |
@@ -67,11 +67,14 @@ Subject-level paired analysis (values are averaged within subject first): mean d
 │                          # explanation, stats, report generation, exploratory arm
 ├── tests/                 # pytest suite (leakage, SHAP additivity, optimizer, windowing, ...)
 ├── requirements.txt
-├── results/latest/        # final report copies (report.md, report.html, paired_summary.csv)
+├── latest/                # all outputs of the final 32-subject run (reports, CSVs, figures)
+├── papers/                # reference papers (R1-R3)
+├── results/               # NOT committed: timestamped run folders, created by the pipeline
+├── cache/                 # NOT committed: extracted-feature cache, created by the pipeline
 └── dataset/               # NOT included, see below
 ```
 
-Full timestamped run folders (`results/<timestamp>/`, with all CSVs, figures and logs) are not committed.
+Timestamped run folders (`results/<timestamp>/`, including `checkpoints/` and `run.log`) are not committed. The final run's outputs are committed in [`latest/`](latest/); start with [`latest/report.md`](latest/report.md).
 
 ## Dataset (not included)
 
@@ -117,12 +120,19 @@ Extracted features are cached under `cache/` (keyed by subject file hash), so ex
 
 ## Reading the outputs
 
-Each run writes to `results/<timestamp>/`:
+Each run writes to `results/<timestamp>/` (or the folder given by `--out`). A full (non-`--quick`) run also writes the report and copies every output file into `latest/`, replacing its previous contents. `--quick` runs produce the CSVs and figures but no report, and do not touch `latest/`.
 
 - `report.md` / `report.html`: full report (the HTML is self-contained and opens offline)
-- `paired_summary.csv`: all paired comparisons with CIs, p-values and Holm correction
-- `subject_metrics.csv`, `lambda_sweep.csv`, `window_sensitivity.csv`, `artifact_rejection.csv`, `stability_refits.csv`, `deletion_curves.csv`, `feature_selection_controls.csv`, `failures.csv`, `config.json`, `run.log`
 - `replication_diff.md`: audit comparing this pipeline with the earlier notebook
+- `paired_summary.csv`: all paired comparisons with CIs, p-values and Holm correction
+- `predictive_preservation.csv`: one-sided BA bound against the −0.03 margin
+- `subject_metrics.csv`: per-subject, per-arm, per-model metrics (BA, F1, AUC, Brier, faithfulness, deletion AUC)
+- Explanation analyses: `stability_refits.csv`, `deletion_curves.csv`, `channel_attributions.csv`, `shuffled_controls.csv`
+- Personalization and selection: `lambda_selection.csv`, `lambda_sweep.csv` (descriptive only), `feature_selection_controls.csv`, `shuffled_calibration.csv`
+- Signal and windows: `window_sensitivity.csv`, `artifact_rejection.csv`, `artifact_rejection_trials.csv`, `artifact_threshold_sweep.csv`, `signal_scale_audit.csv`, `correlation_example.csv`
+- Exploratory arm: `exploratory_metrics.csv`, `exploratory_deletion_curves.csv`, `exploratory_ig_attributions.csv`, `exploratory_failures.csv`
+- Run bookkeeping: `config.json` (seeds, package versions, dataset hashes), `split_manifest.csv`, `analysis_status.csv`, `failures.csv`, `run.log` (`run.log` is git-ignored, so it is absent from `latest/`)
+- Figures (`*.png`): the forest plots, deletion curves, channel attributions, lambda trade-off, window sensitivity and selection controls embedded in the report
 
 ## Limitations
 
@@ -140,7 +150,7 @@ DEAP dataset: Koelstra, S. et al. "DEAP: A Database for Emotion Analysis Using P
 
 ## Authors
 
-Manav Patel,Nishchay Mittal, Kirish Kachadiya, Shreya Ashar, Zeel Ramoliya,Dr Sudhakar  Mishra
+Manav Patel, Nishchay Mittal, Kirish Kachadiya, Shreya Ashar, Zeel Ramoliya, Dr Sudhakar Mishra
 
 ## License
 

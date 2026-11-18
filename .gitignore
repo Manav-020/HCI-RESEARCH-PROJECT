@@ -25,13 +25,10 @@ cache/
 *.pt
 *.pth
 
-# ---------- Run outputs (timestamped folders are large and reproducible) ----------
-results/*
-!results/latest/
-results/latest/*
-!results/latest/report.md
-!results/latest/report.html
-!results/latest/paired_summary.csv
+# ---------- Run outputs ----------
+# Timestamped run folders (and their checkpoints/) are large and reproducible.
+# The final run's outputs are committed under latest/ (written by full runs), so latest/ is not ignored.
+results/
 
 # ---------- Logs ----------
 *.log
